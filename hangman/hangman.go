@@ -1,6 +1,9 @@
 package hangman
 
-import "strings"
+import (
+	"errors"
+	"strings"
+)
 
 type Hangman struct {
 	wordToGuess string
@@ -27,7 +30,11 @@ func (h Hangman) GetGuessing() Guessing {
 	return h.guessing
 }
 
-func (h *Hangman) Guess(guess string) Guessing {
+func (h *Hangman) Guess(guess string) (Guessing, error) {
+	if len(guess) > 1 {
+		return Guessing{}, errors.New("you can guessonly one letter")
+	}
+
 	var letterFound bool
 	wordGuessedSoFar := []rune(h.guessing.WordGuessedSoFar)
 	h.guessing.IsGuessed = false
@@ -50,7 +57,7 @@ func (h *Hangman) Guess(guess string) Guessing {
 		h.guessing.IsGuessed = true
 	}
 
-	return h.guessing
+	return h.guessing, nil
 }
 
 func obfuscate(w string) string {

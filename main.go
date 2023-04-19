@@ -31,8 +31,13 @@ func main() {
 		fmt.Print("Guess the letter: ")
 		scanner.Scan()
 		text := scanner.Text()
-		if len(text) == 1 {
-			guess := hangman.Guess(text)
+		if len(text) > 1 {
+			guess, err := hangman.Guess(text)
+			if err != nil {
+				fmt.Println("You can guess one character at the time")
+				time.Sleep(2 * time.Second)
+				continue
+			}
 			if guess.IsGuessed {
 				fmt.Println("You guessed it!")
 				break
@@ -42,9 +47,6 @@ func main() {
 				fmt.Println("The word to guess was: " + wordToGuess)
 				break
 			}
-		} else if len(text) >= 2 {
-			fmt.Println("You can guess one character at the time")
-			time.Sleep(2 * time.Second)
 		} else {
 			break
 		}
