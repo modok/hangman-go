@@ -23,8 +23,7 @@ func TestEncryptWithThreeWords(t *testing.T) {
 }
 
 func TestWordIsCaseInsensitive(t *testing.T) {
-	h := Hangman{}
-	h.SetWord("HoLa")
+	h := New("HoLa")
 
 	guess, _ := h.Guess("h")
 	assertWordIs(guess.WordGuessedSoFar, "h___", t)
@@ -34,8 +33,7 @@ func TestWordIsCaseInsensitive(t *testing.T) {
 }
 
 func TestGuessingMoreThanOneCharAtTimeShouldError(t *testing.T) {
-	h := Hangman{}
-	h.SetWord("HoLa")
+	h := New("HoLa")
 
 	_, err := h.Guess("ho")
 
@@ -45,8 +43,7 @@ func TestGuessingMoreThanOneCharAtTimeShouldError(t *testing.T) {
 }
 
 func TestGuessShouldReturnFailures(t *testing.T) {
-	h := Hangman{}
-	h.SetWord("hoLa")
+	h := New("HoLa")
 
 	guess, _ := h.Guess("h")
 
@@ -68,8 +65,7 @@ func TestGuessShouldReturnFailures(t *testing.T) {
 }
 
 func TestGuessShouldRegisterTheLetterAttempted(t *testing.T) {
-	h := Hangman{}
-	h.SetWord("hola")
+	h := New("HoLa")
 
 	guess, _ := h.Guess("h")
 	if len(guess.LettersAttempted) != 1 && guess.LettersAttempted[0] != 'h' {
@@ -83,8 +79,7 @@ func TestGuessShouldRegisterTheLetterAttempted(t *testing.T) {
 }
 
 func TestGuessTheSameLetterCanBeUsedOnlyOnce(t *testing.T) {
-	h := Hangman{}
-	h.SetWord("hola")
+	h := New("HoLa")
 
 	guess, _ := h.Guess("h")
 	if len(guess.LettersAttempted) != 1 && guess.LettersAttempted[0] != 'h' {
@@ -98,8 +93,8 @@ func TestGuessTheSameLetterCanBeUsedOnlyOnce(t *testing.T) {
 }
 
 func TestGuess(t *testing.T) {
-	h := Hangman{}
-	h.SetWord("puppa")
+	h := New("puppa")
+
 	guess, _ := h.Guess("p")
 
 	assertWordIs(guess.WordGuessedSoFar, "p_pp_", t)
@@ -117,8 +112,7 @@ func TestGuess(t *testing.T) {
 }
 
 func TestGuessDifficultWord(t *testing.T) {
-	h := Hangman{}
-	h.SetWord("puppa mela")
+	h := New("puppa mela")
 
 	guess, _ := h.Guess("p")
 

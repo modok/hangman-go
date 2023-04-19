@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-type Hangman struct {
+type hangman struct {
 	wordToGuess string
 	guessing    Guessing
 }
@@ -17,20 +17,26 @@ type Guessing struct {
 	LettersAttempted []rune
 }
 
-func (h *Hangman) SetWord(w string) {
+func New(word string) hangman {
+	h := hangman{}
+	h.initialiseWord(word)
+	return h
+}
+
+func (h *hangman) initialiseWord(w string) {
 	h.wordToGuess = strings.ToLower(w)
 	h.guessing.WordGuessedSoFar = obfuscate(w)
 }
 
-func (h Hangman) GetObfuscatedWord() string {
+func (h hangman) ObfuscatedWord() string {
 	return h.guessing.WordGuessedSoFar
 }
 
-func (h Hangman) GetGuessing() Guessing {
+func (h hangman) Guessing() Guessing {
 	return h.guessing
 }
 
-func (h *Hangman) Guess(guess string) (Guessing, error) {
+func (h *hangman) Guess(guess string) (Guessing, error) {
 	if len(guess) > 1 {
 		return Guessing{}, errors.New("you can guessonly one letter")
 	}

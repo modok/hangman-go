@@ -19,19 +19,18 @@ func main() {
 
 	//wordToGuess := "congratulation at your new job by gabry"
 	wordToGuess := downloadWord()
-	hangman := hangman.Hangman{}
-	hangman.SetWord(wordToGuess)
+	hangman := hangman.New(wordToGuess)
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		util.ClearScreen()
-		fmt.Println(hangman.GetObfuscatedWord())
-		fmt.Println("Fails: " + fmt.Sprint(hangman.GetGuessing().Fails) + " out of " + fmt.Sprint(numberOfGuesses))
-		fmt.Println("Letters tried so far: " + string(hangman.GetGuessing().LettersAttempted))
+		fmt.Println(hangman.ObfuscatedWord())
+		fmt.Println("Fails: " + fmt.Sprint(hangman.Guessing().Fails) + " out of " + fmt.Sprint(numberOfGuesses))
+		fmt.Println("Letters tried so far: " + string(hangman.Guessing().LettersAttempted))
 
 		fmt.Print("Guess the letter: ")
 		scanner.Scan()
 		text := scanner.Text()
-		if len(text) > 1 {
+		if len(text) > 0 {
 			guess, err := hangman.Guess(text)
 			if err != nil {
 				fmt.Println("You can guess one character at the time")
@@ -48,6 +47,7 @@ func main() {
 				break
 			}
 		} else {
+			fmt.Println("Exiting...")
 			break
 		}
 	}
